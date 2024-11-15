@@ -1,0 +1,22 @@
+{
+    "clientes": [
+        {
+            "nombre": "dasd",
+            "cedula": "213"
+        },
+        {
+            "nombre": "dasd",
+            "cedula": "213"
+        }
+    ],
+    "facturas": [
+        {
+            "nombre_cliente": "dasd",
+            "cedula_cliente": "213",
+            "numero_factura": "3213",
+            "fecha": "2024-11-14 18:09:05",
+            "saldo_total": "21312",
+            "saldo_restante": 19713.0
+        }
+    ]
+}
