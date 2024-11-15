@@ -43,6 +43,8 @@ cliente_seleccionado = None
 
 # Función de validación para permitir solo números positivos
 def solo_numeros(valor):
+    if isinstance(valor, str) and not valor:
+        return True
     return valor.isdigit()  # Solo permite dígitos (números positivos)
 
 # Registro de la validación para usar en los Entry
@@ -54,6 +56,10 @@ def agregar_cliente():
     cedula = entry_cedula.get()
 
     if nombre and cedula:
+        for cliente in data["clientes"]:
+            if cliente["nombre"] == nombre and cliente["cedula"] == cedula:
+                messagebox.showinfo("Advertencia", "Ya existe un cliente con ese nombre y cédula")
+                return
         nuevo_cliente = {"nombre": nombre, "cedula": cedula}
         data["clientes"].append(nuevo_cliente)
         guardar_datos()
@@ -62,7 +68,7 @@ def agregar_cliente():
         entry_nombre.delete(0, "end")
         entry_cedula.delete(0, "end")
     else:
-        print("Por favor, complete ambos campos")
+        messagebox.showinfo("Advertencia", "Por favor, complete ambos campos")
 
 # Función para seleccionar un cliente en la tabla
 def seleccionar_cliente(event):
@@ -124,6 +130,10 @@ def agregar_factura():
         return
 
     if nombre_cliente and numero_factura and saldo_total:
+        for factura in data["facturas"]:
+            if factura["numero_factura"] == numero_factura:
+                messagebox.showinfo("Advertencia", "Ya existe una factura con este número")
+                return
         nueva_factura = {
             "nombre_cliente": nombre_cliente,
             "cedula_cliente": cliente["cedula"],
@@ -215,13 +225,21 @@ def abonar_monto():
     guardar_datos()
     buscar_facturas()  # Actualizar la tabla después del abono
     entry_monto_abonar.delete(0, "end")
-    btn_abonar.configure(state="disabled")  # Deshabilitar el botón de abonar
 
 # Función para cambiar el contenido de la ventana según el apartado seleccionado
 def mostrar_frame(frame):
     actualizar_tabla_clientes()
     actualizar_tabla_facturas()
     frame.tkraise()
+
+#Función para verificar existencia de clientes para dropdown de facturas que retorne la lista de clientes:
+
+def verificar_existencia_clientes():
+    if not data["clientes"]: 
+        return ["No Hay Clientes"]   
+    return [cliente["nombre"] for cliente in data["clientes"]]
+
+
 
 # Crear el sidebar (barra lateral)
 sidebar = ctk.CTkFrame(app, width=200, fg_color="#ADD8E6")
@@ -283,7 +301,7 @@ contenido_factura.grid_rowconfigure(5, weight=1)
 label_cliente = ctk.CTkLabel(contenido_factura, text="Cliente:")
 label_cliente.grid(row=0, column=0, padx=10, pady=5, sticky="e")
 
-dropdown_cliente = ctk.CTkComboBox(contenido_factura, values=[cliente["nombre"] for cliente in data["clientes"]])
+dropdown_cliente = ctk.CTkComboBox(contenido_factura, values=verificar_existencia_clientes())
 dropdown_cliente.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
 label_numero_factura = ctk.CTkLabel(contenido_factura, text="Número de Factura:")
