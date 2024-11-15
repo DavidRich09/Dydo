@@ -37,11 +37,11 @@ App Dydo: Guía de Instalación
 ## Paso 3: Crear ejecutable con PyInstaller
 
 1. **Dirígete al directorio de tu proyecto:**
-   - En la terminal, navega hasta la carpeta donde tienes el script de Python que deseas convertir en un ejecutable.
+   - En la terminal, navega hasta la carpeta donde tienes el script "main.py" del proyecto.
 
 2. **Crear el ejecutable:**
-   - Ejecuta el siguiente comando para generar el ejecutable de tu script:
+   - Ejecuta el siguiente comando para generar el ejecutable del script "main.py":
      ```bash
-     pyinstaller --onefile tu_script.py
+     pyinstaller --onefile main.py
      ```
    - Esto creará una carpeta `dist` en tu directorio, donde encontrarás el archivo ejecutable.
