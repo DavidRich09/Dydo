@@ -1,34 +1,8 @@
 {
     "clientes": [
-        {
-            "nombre": "abc",
-            "cedula": "23"
-        }
+
     ],
     "facturas": [
-        {
-            "nombre_cliente": "abc",
-            "cedula_cliente": "123",
-            "numero_factura": "555",
-            "fecha": "2024-11-15 00:41:32",
-            "saldo_total": "100000",
-            "saldo_restante": 0.0
-        },
-        {
-            "nombre_cliente": "abc",
-            "cedula_cliente": "23",
-            "numero_factura": "555",
-            "fecha": "2024-11-15 00:43:04",
-            "saldo_total": "200000",
-            "saldo_restante": 169500.0
-        },
-        {
-            "nombre_cliente": "abc",
-            "cedula_cliente": "23",
-            "numero_factura": "123",
-            "fecha": "2024-11-15 00:45:33",
-            "saldo_total": "10000",
-            "saldo_restante": "10000"
-        }
+
     ]
 }

@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import json
+import os
 from tkinter import ttk, messagebox
 from datetime import datetime
 
@@ -11,15 +12,31 @@ data = {
 
 # Función para cargar datos desde el archivo JSON
 def cargar_datos():
-    try:
-        with open("data.json", "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return data
+    documents_folder = os.path.join(os.environ['USERPROFILE'], 'Documents')
+    dydo_folder = os.path.join(documents_folder, 'Dydo')
+    file_path = os.path.join(dydo_folder, 'data.json')
+    
+    os.makedirs(dydo_folder, exist_ok=True)
+    initial_data = {
+        "clientes": [],
+        "facturas": []
+    }
+    if not os.path.isfile(file_path):
+        with open(file_path, 'w') as file:
+            json.dump(initial_data, file, indent=4)
+    
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+    
+
 
 # Función para guardar datos en el archivo JSON
 def guardar_datos():
-    with open("data.json", "w") as file:
+    documents_folder = os.path.join(os.environ['USERPROFILE'], 'Documents')
+    dydo_folder = os.path.join(documents_folder, 'Dydo')
+    file_path = os.path.join(dydo_folder, 'data.json')
+    with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
 
 # Cargar datos iniciales desde el archivo
@@ -131,13 +148,13 @@ def agregar_factura():
 
     if nombre_cliente and numero_factura and saldo_total:
         for factura in data["facturas"]:
-            if factura["numero_factura"] == numero_factura:
+            if int(factura["numero_factura"]) == int(numero_factura):
                 messagebox.showinfo("Advertencia", "Ya existe una factura con este número")
                 return
         nueva_factura = {
             "nombre_cliente": nombre_cliente,
             "cedula_cliente": cliente["cedula"],
-            "numero_factura": numero_factura,
+            "numero_factura": str(int(numero_factura)),
             "fecha": fecha,
             "saldo_total": saldo_total,
             "saldo_restante": saldo_restante
